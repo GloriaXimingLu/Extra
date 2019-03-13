@@ -31,6 +31,11 @@ class A3CAgent:
         self.hidden_state_sz = args.hidden_state_sz
         self.action_space = args.action_space
 
+        self.locate_tomato = self.episode.locate_tomato > 0
+        self.open_mic = self.episode.open_mic > 0
+        self.place_tomato = self.episode.place_tomato > 0
+        self.close_mic = self.close_mic > 0
+
     def sync_with_shared(self, shared_model):
         """ Sync with the shared model. """
         if self.gpu_id >= 0:
@@ -43,7 +48,7 @@ class A3CAgent:
         model_input = ModelInput()
         model_input.state = self.preprocess_frame(self.episode.state_for_agent())
         model_input.hidden = self.hidden
-        model_output = self.model.forward(model_input)
+        model_output = self.model.forward(model_input, self.locate_tomato, self.open_mic, self.place_tomato, self.close_mic)
         return model_output
 
     @property
