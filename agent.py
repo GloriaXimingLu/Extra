@@ -34,7 +34,7 @@ class A3CAgent:
         self.locate_tomato = self.episode.locate_tomato > 0
         self.open_mic = self.episode.open_mic > 0
         self.place_tomato = self.episode.place_tomato > 0
-        self.close_mic = self.close_mic > 0
+        self.close_mic = self.episode.close_mic > 0
 
     def sync_with_shared(self, shared_model):
         """ Sync with the shared model. """
