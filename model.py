@@ -36,7 +36,7 @@ class Model(torch.nn.Module):
         self.conv4 = nn.Conv2d(64, 64, 3, stride=1, padding=1)
         self.maxp4 = nn.MaxPool2d(2, 2)
 
-        self.augmented_linear = nn.Linear(2, 32)
+        self.augmented_linear = nn.Linear(4, 32)
         self.augmented_combination = nn.Linear(1024 + 32, 1024)
 
         self.lstm = nn.LSTMCell(1024, args.hidden_state_sz)
