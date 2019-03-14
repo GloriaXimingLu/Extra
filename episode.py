@@ -86,6 +86,10 @@ class Episode:
             if self.target[0] in visible_objects:
                 self.has_tomato = True
                 self.tomato_success = True
+
+                tomato_id = [o['objectId'] for o in objects if o['objectType'] == self.target[0]][0]
+                self._env.step(dict(action='PickupObject', objectId=tomato_id))
+
                 if self.locate_tomato == 1:
                     reward += PROCESS_REWARD
             else:
@@ -98,6 +102,10 @@ class Episode:
             if self.target[1] in visible_objects:
                 self.mic = True
                 self.open_success = True
+
+                microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
+                self._env.step(dict(action='OpenObject', objectId=microwave_id))
+
                 if self.open_mic == 1:
                     reward += PROCESS_REWARD
             else:
@@ -111,6 +119,10 @@ class Episode:
                 self.has_tomato = False
                 self.tomato_in_mic = True
                 self.put_success = True
+
+                microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
+                self._env.step(dict(action='PlaceHeldObject', objectId=microwave_id))
+
                 if self.place_tomato == 1:
                     reward += PROCESS_REWARD
             else:
@@ -123,6 +135,10 @@ class Episode:
             if self.target[1] in visible_objects and self.mic and self.tomato_in_mic:
                 self.mic = False
                 self.close_success = True
+
+                microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
+                self._env.step(dict(action='CloseObject', objectId=microwave_id))
+
                 if self.close_mic == 1:
                     reward += PROCESS_REWARD
             elif self.target[1] in visible_objects and self.mic:
