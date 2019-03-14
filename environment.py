@@ -105,6 +105,7 @@ class Environment:
     def step(self, action_dict):
         curr_state = ThorAgentState.get_state_from_evenet(event=self.controller.last_event, forced_y=self.y)
         next_state = get_next_state(curr_state, action_dict['action'], copy_state=True)
+        objects = self.controller.last_event.metadata['objects']
         if action_dict['action'] in ['LookUp', 'LookDown', 'RotateLeft', 'RotateRight', 'MoveAhead']:
             if next_state is None:
                 self.last_event.metadata['lastActionSuccess'] = False
@@ -120,6 +121,27 @@ class Environment:
                     # Go back to previous state.
                     self.teleport_agent_to(curr_state.x, curr_state.y, curr_state.z, curr_state.rotation, curr_state.horizon)
                     self.last_event.metadata['lastActionSuccess'] = False
+
+        elif action_dict['action'] == 'PickupObject':
+            tomato_id = [o['objectId'] for o in objects if o['objectType'] == 'Tomato'][0]
+            event = self.controller.step(dict(action='PickupObject', objectId=tomato_id))
+            self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+
+        elif action_dict['action'] == 'OpenObject':
+            mic_id = [o['objectId'] for o in objects if o['objectType'] == 'Microwave'][0]
+            event = self.controller.step(dict(action='OpenObject', objectId=mic_id))
+            self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+
+        elif action_dict['action'] == 'PlaceHeldObject':
+            mic_id = [o['objectId'] for o in objects if o['objectType'] == 'Microwave'][0]
+            event = self.controller.step(dict(action='PlaceHeldObject', objectId=mic_id))
+            self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+
+        elif action_dict['action'] == 'CloseObject':
+            mic_id = [o['objectId'] for o in objects if o['objectType'] == 'Microwave'][0]
+            event = self.controller.step(dict(action='CloseObject', objectId=mic_id))
+            self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+
         elif not action_dict['action'] in ['OpenObject', 'CloseObject', 'PickupObject', 'PlaceHeldObject']:
             return self.controller.step(action_dict)
 
