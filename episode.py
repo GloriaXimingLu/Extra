@@ -88,8 +88,8 @@ class Episode:
                 self.tomato_success = True
 
                 tomato_id = [o['objectId'] for o in objects if o['objectType'] == self.target[0]][0]
-                event =self._env.step(dict(action='PickupObject', objectId=tomato_id))
-                self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+                self._env.step(dict(action='PickupObject', objectId=tomato_id))
+                self.last_event.metadata['lastActionSuccess'] = True
 
                 if self.locate_tomato == 1:
                     reward += PROCESS_REWARD
@@ -105,8 +105,8 @@ class Episode:
                 self.open_success = True
 
                 microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
-                event =self._env.step(dict(action='OpenObject', objectId=microwave_id))
-                self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+                self._env.step(dict(action='OpenObject', objectId=microwave_id))
+                self.last_event.metadata['lastActionSuccess'] = True
 
                 if self.open_mic == 1:
                     reward += PROCESS_REWARD
@@ -123,8 +123,8 @@ class Episode:
                 self.put_success = True
 
                 microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
-                event = self._env.step(dict(action='PlaceHeldObject', objectId=microwave_id))
-                self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+                self._env.step(dict(action='PlaceHeldObject', objectId=microwave_id))
+                self.last_event.metadata['lastActionSuccess'] = True
 
                 if self.place_tomato == 1:
                     reward += PROCESS_REWARD
@@ -140,8 +140,8 @@ class Episode:
                 self.close_success = True
 
                 microwave_id = [o['objectId'] for o in objects if o['objectType'] == self.target[1]][0]
-                event =self._env.step(dict(action='CloseObject', objectId=microwave_id))
-                self.last_event.metadata['lastActionSuccess'] = event.metadata['lastActionSuccess']
+                self._env.step(dict(action='CloseObject', objectId=microwave_id))
+                self.last_event.metadata['lastActionSuccess'] = True
 
                 if self.close_mic == 1:
                     reward += PROCESS_REWARD
